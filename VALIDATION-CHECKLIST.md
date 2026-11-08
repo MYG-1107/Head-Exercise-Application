@@ -30,9 +30,16 @@ Run this checklist on the deployed GitHub Pages URL using a desktop browser and 
 - [ ] Browser zoom to 200% remains usable.
 - [ ] Reduced-motion preference is respected; status updates are announced without flooding.
 
+## Content and enquiry route
+- [ ] Open Articles from the tracker and confirm the blog index displays all 31 articles.
+- [ ] Test search and category filters with keyboard and touch input.
+- [ ] Open several articles and confirm breadcrumbs, related links, scope note and GrapeCrux enquiry link.
+- [ ] Confirm the GrapeCrux link opens the external website in a new tab; the app does not claim to submit an enquiry.
+- [ ] Check headings, tags and cards at mobile, tablet and desktop widths.
+
 ## SEO
 - [ ] Open `robots.txt` and `sitemap.xml` on deployed site; both should return successfully.
-- [ ] Confirm guide, privacy and safety pages load and each has a unique title and canonical URL.
-- [ ] Validate canonical and JSON-LD after deploy; submit sitemap in Search Console and Bing Webmaster Tools.
+- [ ] Confirm guide, privacy, safety, blog index and all 31 articles load and each has a unique title, description and self-referencing canonical URL.
+- [ ] Validate canonical and JSON-LD after deploy; confirm the sitemap contains 36 indexable URLs and submit it in Search Console and Bing Webmaster Tools.
 
 A passing automated test suite does not establish real webcam accuracy, clinical safety, or search ranking.

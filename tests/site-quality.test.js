@@ -35,11 +35,11 @@ test('sitemap lists every indexable page and matches canonical locations', () =>
   const sitemap = read('sitemap.xml');
   for (const page of pages) {
     const canonical = read(page).match(/<link rel="canonical" href="([^"]+)"/i)?.[1];
-    const expected = page === 'index.html' ? 'https://myg-1107.github.io/head-exercise-tracker/' : `https://myg-1107.github.io/head-exercise-tracker/${page}`;
+    const expected = page === 'index.html' ? 'https://myg-1107.github.io/Head-Exercise-Application/' : `https://myg-1107.github.io/Head-Exercise-Application/${page}`;
     assert.equal(canonical, expected, `${page}: unexpected canonical`);
     assert.ok(sitemap.includes(`<loc>${expected}</loc>`), `${page} missing from sitemap`);
   }
-  assert.ok(read('robots.txt').includes('Sitemap: https://myg-1107.github.io/head-exercise-tracker/sitemap.xml'));
+  assert.ok(read('robots.txt').includes('Sitemap: https://myg-1107.github.io/Head-Exercise-Application/sitemap.xml'));
 });
 
 test('internal links point to files that exist', () => {
@@ -79,13 +79,13 @@ test('structured data is valid JSON and identifies the canonical page URL', () =
     const match = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);
     assert.ok(match, `${page}: structured data missing`);
     const data = JSON.parse(match[1]);
-    assert.equal(data.url, page === 'index.html' ? 'https://myg-1107.github.io/head-exercise-tracker/' : `https://myg-1107.github.io/head-exercise-tracker/${page}`);
+    assert.equal(data.url, page === 'index.html' ? 'https://myg-1107.github.io/Head-Exercise-Application/' : `https://myg-1107.github.io/Head-Exercise-Application/${page}`);
   }
 });
 
 test('sitemap is well-formed XML and app manifest is parseable JSON', () => {
   const sitemap = read('sitemap.xml');
   assert.match(sitemap, /^<\?xml/);
-  assert.equal((sitemap.match(/<url>/g) || []).length, 4);
+  assert.equal((sitemap.match(/<url>/g) || []).length, 36);
   assert.match(read('manifest.webmanifest'), /"display": "standalone"/);
 });
