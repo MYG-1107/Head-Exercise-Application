@@ -1,38 +1,42 @@
-# Head Exercise Tracker — QA & SEO Update v2.4
+# Head Exercise Tracker — Content, Trust and SEO Update v2.5
 
-A small, static GitHub Pages web app for counting head-movement cycles. The home screen stays focused on the video, live direction, repetitions and session controls.
+A static GitHub Pages web app for counting head-movement cycles. The tracker remains focused on camera-assisted estimates, manual counts, session controls and user-triggered CSV export. This release adds an educational article hub and clearer routes for digital project enquiries.
 
 ## User features
 
 - Optional camera-assisted head-direction tracking with neutral calibration.
-- Manual mode when a user does not want to use a camera or tracking is unreliable.
-- Voice prompts that are off by default, plus Flip camera and Reset controls.
-- Downloadable CSV session summary; export is triggered by the user and is not uploaded.
+- Manual mode that does not request camera access.
+- Voice prompts off by default, plus Flip camera and Reset controls.
+- Downloadable CSV session summary; export is user-initiated and is not uploaded.
 - Installable app shell and offline manual mode after the site has been loaded and cached once.
-- Short, crawlable guide, privacy and safety pages.
+- Guide, privacy and safety pages with explicit limitations.
+- 31 individual articles covering software engineering, health technology, medical software, accessibility, AI, cybersecurity, networking, cloud, business and finance.
+- A clearly separate link to GrapeCrux for digital project enquiries.
 
 ## Deploy
 
-1. Extract the replacement ZIP.
-2. Upload **all files and folders** to the root of `MYG-1107/head-exercise-tracker`, replacing files with matching names.
-3. Keep `guide.html`, `privacy.html`, `safety.html`, `manifest.webmanifest`, `sw.js`, `icon-192.png`, `icon-512.png`, `social-card.png`, `tracker-core.js`, and `tests/`.
-4. Commit to `main` and wait for GitHub Pages to publish.
-5. Hard-refresh the deployed page and run `VALIDATION-CHECKLIST.md`.
+1. Review and merge the pull request into `main`.
+2. Confirm GitHub Pages publishes from the repository's configured branch and folder.
+3. Visit `https://myg-1107.github.io/Head-Exercise-Application/` and hard-refresh after deployment.
+4. Run the checks in `VALIDATION-CHECKLIST.md`.
 
-No build step or package installation is required to run the website. For tests, use Node.js and run `npm run check`. The suite includes unit tests plus a lightweight DOM smoke test for manual mode and CSV export; it does not substitute for real camera testing.
+The project is static HTML, CSS and JavaScript. No build step is required. For tests, run `npm run check` with Node.js. Automated tests do not replace real camera, browser, accessibility or clinical validation.
 
-## Privacy
+## Content and scope
 
-- No account, analytics, cookies, app database, session-history storage, photo upload or video upload feature.
+The article hub is at `https://myg-1107.github.io/Head-Exercise-Application/blog/`. Articles are educational explainers, not clinical guidance or professional legal, regulatory, cybersecurity incident-response or financial advice. They do not claim that the tracker is a medical device or clinically validated product.
+
+GrapeCrux is linked as a separate destination for business enquiries. The app does not contain a fake contact form or claim that an enquiry has been submitted.
+
+## Privacy and safety
+
+- No account, app database, analytics, cookies, photo upload or video upload feature is included in the tracker.
 - Camera permission is requested only when camera mode is started.
 - MediaPipe scripts and model assets are loaded from jsDelivr only after the user chooses camera mode. The Source Sans 3 font is loaded from NAV's public CDN. These providers can receive standard request metadata.
-- The service worker caches static app files for offline loading. It does not cache camera frames or counts.
-- Session values stay in page memory until reload/close. A CSV file is created only when the user explicitly chooses Export summary; sharing that file is the user's choice.
-
-## Medical limitations
-
-This is a movement counter prototype, not a medical device, diagnosis, exercise prescription or physiotherapy plan. Camera estimates may be wrong; manual entries are self-reported. Do not make treatment claims. Stop if an activity causes pain, dizziness, numbness or concerning symptoms and seek professional advice where appropriate.
+- The service worker caches same-origin static app files. It does not cache camera frames or session counts.
+- Session values stay in page memory until reload/close. A CSV file is created only when the user chooses Export summary.
+- The tracker is a movement-counting utility, not a medical device, diagnosis, exercise prescription or physiotherapy plan. Stop if activity causes pain, dizziness, numbness or concerning symptoms and seek professional advice.
 
 ## SEO notes
 
-The site includes unique page titles/descriptions, canonical URLs, crawlable links, JSON-LD, Open Graph metadata, a sitemap and robots.txt. Submit the sitemap in Google Search Console and Bing Webmaster Tools after deployment. These improvements help discovery and understanding but cannot guarantee indexing or top rankings. See `SEO-SETUP.md`.
+The public pages use page-specific titles, descriptions, canonical URLs, Open Graph/Twitter metadata and structured data. The sitemap lists the canonical pages and all 31 article URLs. The project path is `/Head-Exercise-Application/`; the previous `/head-exercise-tracker/` path was inconsistent and has been corrected. See `SEO-SETUP.md`.

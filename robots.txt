@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://myg-1107.github.io/head-exercise-tracker/sitemap.xml
+Sitemap: https://myg-1107.github.io/Head-Exercise-Application/sitemap.xml

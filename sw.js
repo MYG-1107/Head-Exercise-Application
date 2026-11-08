@@ -1,10 +1,10 @@
 /* Static app-shell cache only. No camera frames or session data are cached. */
 'use strict';
-const CACHE_NAME = 'head-exercise-tracker-shell-v2.4.0';
+const CACHE_NAME = 'head-exercise-tracker-shell-v2.5.0';
 const APP_FILES = [
   './', './index.html', './style.css', './script.js', './tracker-core.js',
   './favicon.svg', './manifest.webmanifest', './icon-192.png', './icon-512.png',
-  './guide.html', './privacy.html', './safety.html', './social-card.png'
+  './guide.html', './privacy.html', './safety.html', './social-card.png', './blog/'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
