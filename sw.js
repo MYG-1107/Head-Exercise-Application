@@ -1,16 +1,16 @@
 /* Static app-shell cache only. No camera frames or session data are cached. */
 'use strict';
-const CACHE_NAME = 'head-exercise-tracker-shell-v2.5.0';
+const CACHE_NAME = 'head-exercise-application-shell-v2.6.0';
 const APP_FILES = [
-  './', './index.html', './style.css', './script.js', './tracker-core.js',
+  './', './index.html', './style.css', './script.js', './tracker-core.js', './demo-3d.js',
   './favicon.svg', './manifest.webmanifest', './icon-192.png', './icon-512.png',
-  './guide.html', './privacy.html', './safety.html', './social-card.png', './blog/'
+  './guide.html', './privacy.html', './safety.html', './social-card.png', './blog/', './blog/index.html'
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(APP_FILES)).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('head-exercise-tracker-shell-') && key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('head-exercise-application-shell-') && key !== CACHE_NAME).map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', event => {
   const request = event.request;
