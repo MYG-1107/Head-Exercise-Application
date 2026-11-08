@@ -318,7 +318,7 @@
       const objectUrl = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = objectUrl;
-      link.download = `head-movement-session-${new Date().toISOString().replace(/[:.]/g, '-')}.csv`;
+      link.download = `head-exercise-application-session-${new Date().toISOString().replace(/[:.]/g, '-')}.csv`;
       link.hidden = true;
       document.body.appendChild(link);
       link.click();

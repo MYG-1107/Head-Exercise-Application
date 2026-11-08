@@ -1,45 +1,34 @@
-# Post-deployment QA acceptance checklist
+# Post-deployment validation checklist
 
-Run this checklist on the deployed GitHub Pages URL using a desktop browser and a phone.
+## Product identity and onboarding
+- [ ] Homepage and every support/help page consistently display Head Exercise Application.
+- [ ] Homepage clearly states no account, registration or login is required.
+- [ ] The tracker opens directly and existing camera/manual controls work.
+- [ ] Play, pause and replay the 3D-style walkthrough; check captions and transcript.
+- [ ] In a supported browser, record and download the WebM walkthrough; verify the file plays.
 
-## Smoke tests
-- [ ] Page loads with no uncaught JavaScript errors; tracker starts in Ready state.
-- [ ] The camera remains off before the user clicks Start camera.
-- [ ] Permission granted: camera preview appears, automatic calibration progress advances, and centre position becomes ready.
-- [ ] Complete one direction → centre cycle; the matching count changes without refreshing.
-- [ ] Direction → direction without returning to centre does not count a repetition.
-- [ ] Face loss during a movement never counts that incomplete movement; centre must be reacquired.
-- [ ] Calibrate again; camera flip reconnects or gives a clear error and requires calibration again.
-- [ ] Pause releases camera; resume reopens it and recalibrates. Stop also releases the camera.
-- [ ] Denied/unavailable camera shows a helpful error and manual mode still works.
-- [ ] Manual counts update and session completes at the configured goal.
-- [ ] Export summary downloads a CSV only after user click; no network upload occurs.
-- [ ] Voice off produces no speech; switching off voice stops queued speech.
-- [ ] Reset clears counts and time and stops the camera.
+## Camera and counting
+- [ ] Camera remains off until Start camera is selected.
+- [ ] Permission granted: preview appears, calibration completes and status updates.
+- [ ] One direction followed by return to centre increments the correct count once.
+- [ ] Direct direction-to-direction movement does not count a completed repetition.
+- [ ] Face loss interrupts an unfinished movement without completing a count.
+- [ ] Recalibration, flip, pause, resume and stop work; the camera indicator turns off after pause/stop.
+- [ ] Denied/unavailable camera provides a useful message and manual mode remains usable.
+- [ ] Manual entries update counts and are labelled self-reported.
+- [ ] CSV export downloads only after the user clicks Export summary.
 
-## Privacy and offline
-- [ ] Network panel shows the expected NAV font request and, only in camera mode, jsDelivr model requests.
-- [ ] No camera frame/image upload request occurs.
-- [ ] Refresh clears session counters.
-- [ ] After loading once online, disconnect and reload: the app shell is available and manual mode works. Camera mode should clearly require a connection for model loading.
-- [ ] Clear site storage and retest install/offline behavior.
+## Responsive, accessibility and privacy
+- [ ] Test at 320 px, 375 px, 768 px and desktop widths without horizontal scrolling.
+- [ ] Keyboard focus is visible and all controls are reachable.
+- [ ] Browser zoom to 200% remains usable; reduced-motion preference is respected.
+- [ ] Confirm no camera frame upload request is made by the application.
+- [ ] Confirm the privacy page describes external asset requests and local CSV download.
 
-## Responsive/accessibility
-- [ ] Test at 320 px, 375 px, 768 px and desktop widths; no horizontal scroll or clipped controls.
-- [ ] Keyboard can reach and activate all controls; focus indicators are visible.
-- [ ] Browser zoom to 200% remains usable.
-- [ ] Reduced-motion preference is respected; status updates are announced without flooding.
+## Help centre and SEO
+- [ ] Help centre shows exactly 20 application-specific guides; search and topic filters work.
+- [ ] Every guide has a unique title, description, canonical, BlogPosting JSON-LD and working links.
+- [ ] Sitemap returns successfully and lists 25 canonical URLs.
+- [ ] Submit the sitemap in Search Console and monitor indexing; do not assume submission guarantees indexing.
 
-## Content and enquiry route
-- [ ] Open Articles from the tracker and confirm the blog index displays all 31 articles.
-- [ ] Test search and category filters with keyboard and touch input.
-- [ ] Open several articles and confirm breadcrumbs, related links, scope note and GrapeCrux enquiry link.
-- [ ] Confirm the GrapeCrux link opens the external website in a new tab; the app does not claim to submit an enquiry.
-- [ ] Check headings, tags and cards at mobile, tablet and desktop widths.
-
-## SEO
-- [ ] Open `robots.txt` and `sitemap.xml` on deployed site; both should return successfully.
-- [ ] Confirm guide, privacy, safety, blog index and all 31 articles load and each has a unique title, description and self-referencing canonical URL.
-- [ ] Validate canonical and JSON-LD after deploy; confirm the sitemap contains 36 indexable URLs and submit it in Search Console and Bing Webmaster Tools.
-
-A passing automated test suite does not establish real webcam accuracy, clinical safety, or search ranking.
+Automated tests do not establish camera accuracy, clinical safety, legal compliance or search ranking.
