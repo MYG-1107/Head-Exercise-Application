@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - 'seo/**'
 
 permissions:
   contents: read
