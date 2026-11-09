@@ -8,6 +8,10 @@
 - [ ] In a supported browser, record and download the WebM walkthrough; verify the file plays.
 
 ## Camera and counting
+- [ ] Disconnect or disable the active camera track during a session; verify the session stops, counts are not incremented, and a recovery message appears.
+- [ ] Hide the browser tab or switch apps during camera setup and during a session; verify the session pauses and camera tracks are released.
+- [ ] Return to the page and explicitly resume; verify camera reconnection and neutral calibration are required again.
+- [ ] Present an incomplete or partially obscured face; verify the app requests repositioning and does not treat incomplete landmarks as a valid movement.
 - [ ] Camera remains off until Start camera is selected.
 - [ ] Permission granted: preview appears, calibration completes and status updates.
 - [ ] One direction followed by return to centre increments the correct count once.
