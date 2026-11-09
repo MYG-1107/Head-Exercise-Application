@@ -102,6 +102,27 @@
         try { const result = mesh.close?.(); if (result?.catch) result.catch(() => {}); } catch (_) {}
       }
     }
+    function handleUnexpectedCameraEnd(stream) {
+      if (state.stream !== stream || state.mode !== 'camera' || !['starting', 'running'].includes(state.session)) return;
+      state.startRequest += 1;
+      stopTimer();
+      state.tracker.interruptMovement();
+      state.calibrating = false;
+      state.baseline = null;
+      releaseCamera();
+      state.session = 'ended';
+      renderState();
+      setDirection('READY', 'Camera connection ended. No new counts will be recorded.');
+      setStatus('Camera connection ended. Tracking stopped and camera resources were released. Restart the camera or switch to manual mode.');
+    }
+    function watchCameraStream(stream) {
+      stream.getTracks().forEach(track => {
+        const onEnded = () => handleUnexpectedCameraEnd(stream);
+        if (typeof track.addEventListener === 'function') track.addEventListener('ended', onEnded, { once: true });
+        else track.onended = onEnded;
+      });
+    }
+
     function resetDirectionSmoothing() {
       state.smoothPose = null; state.candidate = 'CENTER'; state.candidateFrames = 0; state.stable = 'CENTER';
       DIRECTIONS.forEach(key => $(`stat-${key}`).classList.remove('direction-active'));
@@ -152,6 +173,7 @@
         acquiredStream = await navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: { ideal: state.facingMode }, width: { ideal: 960 }, height: { ideal: 720 } } });
         if (!requestIsCurrent()) { acquiredStream.getTracks().forEach(track => track.stop()); return; }
         state.stream = acquiredStream;
+        watchCameraStream(acquiredStream);
         $('camera-overlay-title').textContent = 'Preparing tracker…';
         $('camera-overlay-copy').textContent = 'Camera is active. Loading tracking tools in this browser.';
         setStatus('Camera is active. Loading tracking tools in this browser…');
@@ -197,7 +219,7 @@
           try { await mesh.send({ image: video }); }
           catch (error) {
             if (generation === state.generation) {
-              stopTimer(); releaseCamera(); state.calibrating = false; state.baseline = null; state.session = 'ended'; renderState();
+              stopTimer(); state.tracker.interruptMovement(); releaseCamera(); state.calibrating = false; state.baseline = null; state.session = 'ended'; renderState();
               setDirection('READY', 'Tracking stopped.');
               setStatus('A camera frame could not be processed. The camera was stopped. Restart or use manual mode.');
             }
@@ -237,7 +259,15 @@
         setDirection('NO_FACE', 'Move into view to continue.'); setStatus('Face not detected. No repetition was counted.'); return;
       }
       $('pose-status').textContent = 'Face detected';
-      const pose = poseFromLandmarks(landmarks); if (!pose) return;
+      const pose = poseFromLandmarks(landmarks);
+      if (!pose) {
+        $('pose-status').textContent = 'Adjust position';
+        state.tracker.interruptMovement();
+        resetDirectionSmoothing();
+        setDirection('NO_FACE', 'Keep your full face visible and reposition slightly.');
+        setStatus('Face landmarks are not stable. Reposition so your face is clearly visible; no repetition was counted.');
+        return;
+      }
       const smoothing = 0.34;
       state.smoothPose = state.smoothPose ? { horizontal: smoothing * pose.horizontal + (1 - smoothing) * state.smoothPose.horizontal, vertical: smoothing * pose.vertical + (1 - smoothing) * state.smoothPose.vertical } : pose;
       if (state.calibrating) {
@@ -299,7 +329,7 @@
       const data = snapshot();
       if (data.total === 0) { setStatus('Complete at least one repetition before exporting a summary.'); return; }
       const rows = [
-        ['Head Movement Tracker — session summary'],
+        ['Head Exercise Application — session summary'],
         ['Exported at (UTC)', new Date().toISOString()],
         ['Tracking mode', state.mode === 'manual' ? 'Manual (self-reported)' : 'Camera-assisted'],
         ['Elapsed time', formatTime(state.elapsed)],
@@ -384,6 +414,16 @@
       renderState(); if (state.voice) speak('Voice prompts on');
     });
     $('mode-toggle-btn').addEventListener('click', toggleMode);
+    $('large-text-btn').addEventListener('click', () => {
+      const enabled = document.body.classList.toggle('large-text');
+      $('large-text-btn').setAttribute('aria-pressed', String(enabled));
+      $('large-text-btn').textContent = `Larger text: ${enabled ? 'on' : 'off'}`;
+    });
+    $('high-contrast-btn').addEventListener('click', () => {
+      const enabled = document.body.classList.toggle('high-contrast');
+      $('high-contrast-btn').setAttribute('aria-pressed', String(enabled));
+      $('high-contrast-btn').textContent = `High contrast: ${enabled ? 'on' : 'off'}`;
+    });
     targetSelect.addEventListener('change', () => {
       state.tracker.setTargetPerDirection(Number(targetSelect.value)); renderProgress();
       setStatus(`Goal set to ${targetSelect.value} repetitions per direction. This is a tracking setting, not medical advice.`);
@@ -402,6 +442,16 @@
     }
     window.addEventListener('online', updateNetworkHint);
     window.addEventListener('offline', updateNetworkHint);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && state.session === 'running') {
+        pauseSession();
+        setStatus('Session paused because this page is no longer visible. The camera has been released. Resume when you return.');
+      }
+    });
+    window.addEventListener('pagehide', () => {
+      if (state.session === 'running') pauseSession();
+      else { state.startRequest += 1; stopTimer(); releaseCamera(); }
+    });
     updateNetworkHint();
     if ('serviceWorker' in navigator && location.protocol === 'https:') {
       navigator.serviceWorker.register('./sw.js').catch(() => {
