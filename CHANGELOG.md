@@ -1,5 +1,16 @@
 # Changelog
 
+## v2.8.0 — Simplified site structure
+
+- Reduced the public site to four essential pages: Home, Quick guide, Privacy and Safety.
+- Removed the 20-page article archive and its archive-specific test.
+- Removed the animated 3D-style walkthrough and browser-side WebM recording feature; the concise Quick guide now covers the essential user steps.
+- Removed article/walkthrough links and unused styling from the site.
+- Reduced the service-worker cache to the app shell and three supporting pages.
+- Updated the sitemap to list only the four retained public pages.
+- Updated SEO, testing and project documentation to match the simplified site.
+
+
 ## v2.7.0 — Camera lifecycle, accessibility and offline reliability
 
 - Removed duplicate loading of the 3D-style walkthrough script.
