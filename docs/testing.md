@@ -24,7 +24,7 @@ Serve the repository over HTTPS or localhost and open:
 tests/browser-smoke.html
 ```
 
-The page embeds the homepage and checks initial camera-off behavior, manual mode, count updates, pause/resume/stop/reset, privacy disclosure, display preferences and walkthrough availability. It does not grant camera permission or prove camera tracking accuracy.
+The page embeds the homepage and checks initial camera-off behavior, manual mode, count updates, pause/resume/stop/reset, privacy disclosure, display preferences and essential navigation. It does not grant camera permission or prove camera tracking accuracy.
 
 ## Manual camera test matrix
 
@@ -56,12 +56,11 @@ Record actual outcomes and device/browser details. Do not invent a camera accura
 ## Offline checks
 
 1. Visit the site while online and allow the service worker to install/update.
-2. Revisit the homepage and help centre after switching offline.
-3. Open several help article URLs that were listed in the service-worker cache.
-4. Confirm manual mode remains usable offline.
-5. Confirm camera mode explains that tracking assets may need an internet connection.
-6. Request an uncached page while offline; it should show an explicit unavailable response, not the homepage.
-7. Update the cache version and verify the old application-shell cache is removed after activation.
+2. Revisit the homepage and the Quick guide, Privacy and Safety pages after switching offline.
+3. Confirm manual mode remains usable offline.
+4. Confirm camera mode explains that tracking assets may need an internet connection.
+5. Request a removed or uncached page while offline; it should show an explicit unavailable response, not the homepage.
+6. Update the cache version and verify the old application-shell cache is removed after activation.
 
 ## Release rule
 

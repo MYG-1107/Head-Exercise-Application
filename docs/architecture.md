@@ -6,13 +6,12 @@ Head Exercise Application is a static HTML, CSS and JavaScript application. It h
 
 ## Main components
 
-- index.html: tracker interface, navigation, accessibility controls, safety/privacy disclosures and the first-session walkthrough markup.
+- index.html: tracker interface, navigation, accessibility controls, safety/privacy disclosures and the session counter markup.
 - style.css: responsive layout, focus styles, reduced-motion support and temporary display preference styles.
 - script.js: browser UI orchestration, camera permission, MediaPipe loading, calibration, camera lifecycle, manual mode, session timer, voice prompts and user-triggered CSV export.
 - tracker-core.js: pure movement-cycle state and direction classification. It contains no DOM access, camera calls, networking or persistence.
-- demo-3d.js: optional canvas-based first-session walkthrough and browser-local WebM recording.
 - sw.js: same-origin application-shell and help-page caching. It must not cache camera frames or session values.
-- blog/: application-specific setup, troubleshooting, privacy and safety guides.
+- guide.html, privacy.html and safety.html: the three supporting public pages.
 - tests/: Node unit/UI/static tests and a browser smoke page.
 
 ## Camera lifecycle
@@ -32,7 +31,7 @@ The app keeps current counts and elapsed time in page memory. CSV export is gene
 
 ## Change principles
 
-- Preserve camera mode, manual mode, counting, pause/resume/stop, voice prompts, CSV export, the walkthrough and help pages.
+- Preserve camera mode, manual mode, counting, pause/resume/stop, voice prompts and CSV export. Keep the public site limited to Home, Quick guide, Privacy and Safety.
 - Keep the tracking core independently testable.
 - Keep new data collection opt-in and local-first by default.
 - Avoid clinical features until qualified review, validation and governance exist.
