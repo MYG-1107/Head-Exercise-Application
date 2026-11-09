@@ -369,6 +369,24 @@
       stopTimer(); releaseCamera(); state.calibrating = false; state.baseline = null; state.session = 'paused';
       state.tracker.interruptMovement(); resetDirectionSmoothing(); renderState(); setDirection('READY', 'Resume when you are ready.'); setStatus('Paused. Camera released. Recalibration will start when you resume.');
     }
+    function pauseForPageExit() {
+      if (state.session === 'running') {
+        pauseSession();
+        return;
+      }
+      if (state.session === 'starting') {
+        state.startRequest += 1;
+        stopTimer();
+        state.tracker.interruptMovement();
+        releaseCamera();
+        state.calibrating = false;
+        state.baseline = null;
+        state.session = 'paused';
+        renderState();
+        setDirection('READY', 'Session paused while this page is hidden.');
+        setStatus('Camera setup was paused because this page is no longer visible. Resume when you return.');
+      }
+    }
     function startSession() {
       if (state.session === 'running' || state.session === 'starting') return;
       if (state.session === 'paused') { if (state.mode === 'manual') { state.session = 'running'; startTimer(); renderState(); setStatus('Manual session resumed.'); } else startCameraSession(); return; }
@@ -443,14 +461,14 @@
     window.addEventListener('online', updateNetworkHint);
     window.addEventListener('offline', updateNetworkHint);
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden && state.session === 'running') {
-        pauseSession();
+      if (document.hidden && ['running', 'starting'].includes(state.session)) {
+        pauseForPageExit();
         setStatus('Session paused because this page is no longer visible. The camera has been released. Resume when you return.');
       }
     });
     window.addEventListener('pagehide', () => {
-      if (state.session === 'running') pauseSession();
-      else { state.startRequest += 1; stopTimer(); releaseCamera(); }
+      pauseForPageExit();
+      if (!['running', 'starting'].includes(state.session)) { state.startRequest += 1; stopTimer(); releaseCamera(); }
     });
     updateNetworkHint();
     if ('serviceWorker' in navigator && location.protocol === 'https:') {
