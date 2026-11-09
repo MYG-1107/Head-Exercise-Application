@@ -6,3 +6,33 @@ test('internal links in static pages resolve',()=>{for(const p of pages){const h
 test('manifest and service worker identify the current app shell',()=>{const m=JSON.parse(read('manifest.webmanifest'));assert.equal(m.name,'Head Exercise Application');assert.equal(m.start_url,'./');const sw=read('sw.js');for(const f of ['index.html','demo-3d.js','blog/index.html','tracker-core.js'])assert.ok(sw.includes(f))});
 test('structured data is parseable',()=>{for(const p of pages){const html=read(p),m=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);assert.ok(m,p+' missing JSON-LD');assert.ok(JSON.parse(m[1]))}});
 test('walkthrough includes recording support and an accessible transcript',()=>{assert.match(read('demo-3d.js'),/MediaRecorder/);assert.match(read('demo-3d.js'),/captureStream/);assert.match(read('index.html'),/aria-live="polite"/);assert.match(read('index.html'),/walkthrough-transcript/)});
+
+test('walkthrough script is loaded exactly once', () => {
+  const html = read('index.html');
+  assert.equal((html.match(/src="demo-3d\\.js"/g) || []).length, 1);
+});
+test('camera lifecycle handles interrupted streams and hidden pages', () => {
+  const app = read('script.js');
+  assert.match(app, /function watchCameraStream\\(stream\\)/);
+  assert.match(app, /addEventListener\\('ended'/);
+  assert.match(app, /visibilitychange/);
+  assert.match(app, /pagehide/);
+});
+test('homepage provides accessible display preferences', () => {
+  const html = read('index.html');
+  const css = read('style.css');
+  const app = read('script.js');
+  assert.match(html, /id="large-text-btn"[^>]*aria-pressed="false"/);
+  assert.match(html, /id="high-contrast-btn"[^>]*aria-pressed="false"/);
+  assert.match(css, /body\\.large-text/);
+  assert.match(css, /body\\.high-contrast/);
+  assert.match(app, /classList\\.toggle\\('large-text'\\)/);
+  assert.match(app, /classList\\.toggle\\('high-contrast'\\)/);
+});
+test('service worker includes the application help pages for offline reading', () => {
+  const sw = read('sw.js');
+  for (const file of ['blog/camera-mode-explained.html', 'blog/manual-mode-guide.html', 'blog/safety-and-limitations-of-the-application.html']) {
+    assert.ok(sw.includes(file), file + ' not included in offline shell');
+  }
+  assert.match(sw, /503/);
+});
