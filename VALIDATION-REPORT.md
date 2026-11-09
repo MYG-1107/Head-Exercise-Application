@@ -32,3 +32,12 @@ The application is a movement counter, not a medical device or clinical assessme
 The new Node and browser checks are committed but have **not been executed in this environment**. Run npm run check from a local checkout of this branch, then open tests/browser-smoke.html over the deployed HTTPS site. Camera disconnection, page-hidden behavior, offline article navigation, responsive layouts, keyboard/screen-reader access and reduced-motion behavior still require real-browser and device validation.
 
 The PR does not claim camera accuracy, WCAG 2.2 AA conformance, clinical validation or legal compliance.
+
+
+## v2.8.0 — Site simplification
+
+The public-facing site is reduced to four pages: the homepage movement counter, a short Quick guide, Privacy and Safety. The 20-page article archive, its archive-specific test and the animated walkthrough/WebM recorder were removed. Navigation, footer links, sitemap, service-worker app-shell cache, SEO setup notes, QA tests and documentation were updated to match.
+
+The core counter, camera/manual modes, calibration, session controls, voice prompts, CSV export, privacy and safety pages, display accessibility settings and camera lifecycle handling are retained.
+
+The GitHub connector does not execute the Node.js test suite or browser/device tests. Run npm run check and complete VALIDATION-CHECKLIST.md before merging. No camera accuracy, clinical validation, WCAG 2.2 AA conformance or search-ranking claim is made.
