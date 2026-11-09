@@ -214,7 +214,7 @@ h1 { margin: 0; font-size: clamp(25px, 3.2vw, 34px); line-height: 1.14; letter-s
 
 
 
-/* Small homepage note; other editorial and walkthrough components were removed. */
+/* Small homepage note. */
 .no-login-note { display: inline-block; margin: 12px 0 0; padding: 8px 12px; border: 1px solid #b8d9d1; border-radius: 8px; background: #f0f8f5; color: #18584f; font-size: 14px; font-weight: 700; }
 
 /* v2.7: user-controlled display settings */
@@ -224,7 +224,7 @@ h1 { margin: 0; font-size: clamp(25px, 3.2vw, 34px); line-height: 1.14; letter-s
 .display-settings-controls { display: flex; flex-wrap: wrap; gap: 8px; }
 .display-settings-controls button[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-pale); color: var(--brand-dark); }
 body.large-text { font-size: 20px; }
-body.large-text :is(.subtitle, .no-login-note, .field-label, .direction-card p, .status-message, .counts-heading p, .manual-heading p, .manual-note, .bottom-actions, .short-notes p, .info-page-card p, .info-page-card li, .blog-card > p, .article-content p, .article-content li) { font-size: 1.1em; }
+body.large-text :is(.subtitle, .no-login-note, .field-label, .direction-card p, .status-message, .counts-heading p, .manual-heading p, .manual-note, .bottom-actions, .short-notes p, .info-page-card p, .info-page-card li) { font-size: 1.1em; }
 body.large-text :is(button, select, a, summary, label) { font-size: 1.05em; }
 body.high-contrast {
   --ink: #061923;
