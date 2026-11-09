@@ -1,36 +1,33 @@
 # Head Exercise Application
 
-A static browser application for counting completed head-movement cycles with optional camera-assisted direction estimates or camera-free manual mode.
+A focused, browser-based movement counter with two ways to count completed head-movement cycles:
 
-## First-time use
+- **Camera mode:** estimates movement direction in the browser after camera permission and neutral calibration.
+- **Manual mode:** counts user-confirmed movements without camera access.
 
-- Open the GitHub Pages site. No account, registration or login is required.
-- Choose camera mode only when ready to grant browser camera permission, or use manual mode without a camera.
-- In camera mode, allow neutral calibration to complete. A counted repetition requires a direction followed by a return to centre.
-- Use Pause or Stop when needed. Export summary downloads a CSV file only after you request it.
-- Watch the animated 3D-style walkthrough on the homepage. Supported browsers can record that walkthrough as WebM locally.
+No account or login is required.
 
-## Help centre
+## Main pages
 
-The help centre is at https://myg-1107.github.io/Head-Exercise-Application/blog/ and contains 20 individual articles about the application's actual features, setup, troubleshooting, privacy and safety.
+- Home — the movement counter.
+- [Quick guide](https://myg-1107.github.io/Head-Exercise-Application/guide.html) — start, calibrate, count, pause and export.
+- [Privacy](https://myg-1107.github.io/Head-Exercise-Application/privacy.html) — camera processing and data handling.
+- [Safety](https://myg-1107.github.io/Head-Exercise-Application/safety.html) — intended use and limitations.
 
-## v2.7 improvements
-
-- Camera sessions stop safely if the camera track ends unexpectedly.
-- Camera and manual sessions pause when the page is hidden; camera resources are released and the user can resume explicitly.
-- Incomplete facial landmark results produce a clear repositioning message.
-- Optional larger-text and high-contrast display preferences are available on the homepage. They are temporary and are not stored.
-- The service worker can cache the application's help articles after an online visit and uses a clearer offline fallback.
-- The 3D-style walkthrough script is loaded once, and browser smoke checks match the current interface.
-
-These additions do not validate camera accuracy or provide clinical guidance. Camera output remains an estimate.
+The site intentionally avoids a separate article archive and animated walkthrough. The essential instructions are kept in the quick guide.
 
 ## Development checks
 
-This is a static HTML, CSS and JavaScript project; no build step is needed. With Node.js installed, run npm run check. Automated checks do not replace physical-device camera, browser, responsive, accessibility or safety review.
+This is a static HTML, CSS and JavaScript project with no build step or package dependencies. With Node.js installed, run:
+
+```bash
+npm run check
+```
+
+Automated checks do not replace physical-device camera, responsive, accessibility or safety review. See [docs/testing.md](docs/testing.md).
 
 ## Privacy and intended use
 
-No account or application database is included. Camera access is optional and requested only when camera mode starts. Camera tracking assets load from jsDelivr; a public font CDN is also referenced, and those services may receive standard request metadata. Session counts stay in page memory until reset, refresh or close. CSV files are downloaded locally on user action.
+Camera access is optional and requested only when camera mode starts. Camera frames are processed in the browser; the app does not include an intentional camera-frame upload feature. Counts stay in page memory until reset, refresh or close. CSV files are downloaded locally on user action. Camera tracking assets and the public font CDN may receive standard connection metadata.
 
-The application is a movement-counting utility, not a medical device, diagnosis, exercise prescription or physiotherapy plan. Camera direction is an estimate; manual entries are self-reported.
+The application is a movement-counting utility, not a medical device, diagnosis, clinical range-of-motion assessment, exercise prescription or physiotherapy plan. Camera direction is an estimate; manual entries are self-reported.
