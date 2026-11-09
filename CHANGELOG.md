@@ -1,5 +1,20 @@
 # Changelog
 
+## v2.7.0 — Camera lifecycle, accessibility and offline reliability
+
+- Removed duplicate loading of the 3D-style walkthrough script.
+- Detect unexpected camera-track termination, stop tracking safely and explain recovery options.
+- Pause active sessions when the page is hidden or navigated away from; release camera resources and require an explicit resume.
+- Show a clearer diagnostic message when facial landmarks are incomplete.
+- Add temporary larger-text and high-contrast controls with accessible pressed states.
+- Cache the 20 existing application help guides as optional offline resources without making a missing article block app installation.
+- Improve offline navigation fallback so uncached pages show an explicit unavailable message rather than the homepage.
+- Update unit/UI/static regression tests and replace stale browser smoke checks with checks for the current interface.
+- Add engineering, privacy and release validation documentation.
+
+No camera accuracy, clinical validation, WCAG conformance or real-device compatibility claim is made by this release.
+
+
 ## v2.6.0 — Product identity and first-session onboarding
 
 - Standardised the visible product name and page metadata as Head Exercise Application.
