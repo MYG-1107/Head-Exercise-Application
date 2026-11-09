@@ -55,7 +55,7 @@
 }
 </script>
   <script src="tracker-core.js" defer></script>
-  <script src="script.js" defer></script><script src="demo-3d.js" defer></script><script src="demo-3d.js" defer></script>
+  <script src="script.js" defer></script><script src="demo-3d.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#tracker">Skip to tracker</a>
@@ -155,6 +155,16 @@
       </section>
 
       <div class="bottom-actions"><button id="mode-toggle-btn" type="button" class="plain-link">Use manual mode</button><span id="offline-note">Counts stay on this page unless you export them.</span></div>
+      <section class="display-settings" aria-label="Accessibility settings">
+        <details id="display-settings">
+          <summary>Display and accessibility settings</summary>
+          <p>Adjust text size or contrast for this page. These choices remain active only until you close or refresh the page. Reduced-motion preferences from your device are respected automatically.</p>
+          <div class="display-settings-controls">
+            <button id="large-text-btn" class="small-button" type="button" aria-pressed="false">Larger text: off</button>
+            <button id="high-contrast-btn" class="small-button" type="button" aria-pressed="false">High contrast: off</button>
+          </div>
+        </details>
+      </section>
     </section>
 
     <section class="short-notes" aria-label="Privacy and safety information">
