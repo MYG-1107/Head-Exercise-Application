@@ -62,7 +62,7 @@ test('custom 404 is excluded from indexing and sitemap but links visitors to val
   assert.match(html, /<title>Page Not Found \| Head Exercise Application<\/title>/);
   assert.match(html, /<meta name="robots" content="noindex, follow">/);
   assert.doesNotMatch(html, /rel="canonical"/i);
-  for (const destination of ['./', 'guide.html', 'privacy.html', 'safety.html']) {
+  for (const destination of ['/Head-Exercise-Application/', '/Head-Exercise-Application/guide.html', '/Head-Exercise-Application/privacy.html', '/Head-Exercise-Application/safety.html']) {
     assert.match(html, new RegExp('href="' + destination.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '"'));
   }
   assert.doesNotMatch(read('sitemap.xml'), /404\.html/);
