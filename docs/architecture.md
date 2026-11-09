@@ -6,7 +6,7 @@ Head Exercise Application is a static HTML, CSS and JavaScript application. It h
 
 ## Main components
 
-- index.html: tracker interface, navigation, accessibility controls, safety/privacy disclosures and the first-session walkthrough markup.
+- index.html: tracker interface, navigation, accessibility controls, safety/privacy disclosures and the session counter markup.
 - style.css: responsive layout, focus styles, reduced-motion support and temporary display preference styles.
 - script.js: browser UI orchestration, camera permission, MediaPipe loading, calibration, camera lifecycle, manual mode, session timer, voice prompts and user-triggered CSV export.
 - tracker-core.js: pure movement-cycle state and direction classification. It contains no DOM access, camera calls, networking or persistence.
