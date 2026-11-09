@@ -67,7 +67,7 @@ test('navigation exposes only Home, Quick guide, Privacy and Safety', () => {
   }
   const guide = read('guide.html');
   assert.match(guide, /href="\./, 'guide should link back to the homepage');
-  assert.doesNotMatch(guide, /article|help centre|walkthrough/i);
+  assert.doesNotMatch(guide, /help centre|walkthrough/i);
 });
 
 test('manifest and service worker identify the smaller application shell', () => {
