@@ -357,7 +357,6 @@
       setStatus('Session summary downloaded. The file remains on your device unless you share it.');
     }
 
-    function startTimer() { stopTimer(); state.timer = window.setInterval(() => { if (state.session === 'running') { state.elapsed += 1; $('timer-display').textContent = formatTime(state.elapsed); } }, 1000); }
     function stopSession() {
       if (!['starting', 'running', 'paused'].includes(state.session)) return;
       state.startRequest += 1; stopTimer(); releaseCamera(); state.calibrating = false; state.session = 'ended'; state.baseline = null; resetDirectionSmoothing();
