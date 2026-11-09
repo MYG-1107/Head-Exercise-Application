@@ -92,7 +92,7 @@ function bootApp() {
   vm.runInNewContext(fs.readFileSync(path.join(__dirname, '..', 'script.js'), 'utf8'), sandbox, {filename:'script.js'});
   assert.equal(typeof documentListeners.DOMContentLoaded, 'function', 'DOMContentLoaded handler was not registered');
   documentListeners.DOMContentLoaded();
-  return {elements, manualButtons, document, window, capturedBlobs};
+  return {elements, manualButtons, document, window, capturedBlobs, documentListeners};
 }
 
 test('UI boots and manual mode counts a completed cycle without touching the camera', () => {
@@ -123,4 +123,35 @@ test('CSV summary is created only after explicit export click and has no upload 
   assert.match(csv, /LEFT/);
   assert.match(csv, /does not upload the summary/);
   assert.match(app.elements.get('tracking-status').textContent, /downloaded/i);
+});
+
+test('display preferences toggle larger text and high contrast accessibly', () => {
+  const app = bootApp();
+  const body = app.document.body;
+  const larger = app.elements.get('large-text-btn');
+  const contrast = app.elements.get('high-contrast-btn');
+  larger.click();
+  assert.equal(body.classList.contains('large-text'), true);
+  assert.equal(larger.getAttribute('aria-pressed'), 'true');
+  assert.equal(larger.textContent, 'Larger text: on');
+  contrast.click();
+  assert.equal(body.classList.contains('high-contrast'), true);
+  assert.equal(contrast.getAttribute('aria-pressed'), 'true');
+  assert.equal(contrast.textContent, 'High contrast: on');
+  larger.click();
+  contrast.click();
+  assert.equal(body.classList.contains('large-text'), false);
+  assert.equal(body.classList.contains('high-contrast'), false);
+});
+
+test('a hidden page pauses an active session and releases the camera path', () => {
+  const app = bootApp();
+  app.elements.get('mode-toggle-btn').click();
+  app.elements.get('start-session-btn').click();
+  assert.equal(app.elements.get('session-state').dataset.state, 'running');
+  app.document.hidden = true;
+  app.documentListeners.visibilitychange();
+  assert.equal(app.elements.get('session-state').dataset.state, 'paused');
+  assert.match(app.elements.get('tracking-status').textContent, /page is no longer visible/i);
+  assert.equal(app.elements.get('webcam').srcObject, null);
 });

@@ -16,3 +16,19 @@ This update standardises the product identity, adds a canvas-based 3D-style firs
 The GitHub connector does not execute the repository's Node.js test suite or browser/device tests. Run npm run check locally after checking out the branch. Test camera permission, calibration, counting, track release, WebM recording, mobile layouts, keyboard access and reduced-motion behaviour in real browsers before merging.
 
 The application is a movement counter, not a medical device or clinical assessment. Camera output is an estimate and manual entries are self-reported.
+
+
+## v2.7.0 pull-request scope
+
+- Removed the duplicate walkthrough script reference.
+- Added camera-track ended handling and automatic session pause on page hiding/navigation.
+- Added a diagnostic path for incomplete facial landmarks.
+- Added temporary larger-text and high-contrast display settings.
+- Updated the service worker to cache all 20 current help articles as optional resources and to avoid silently serving the homepage for an uncached offline route.
+- Added regression assertions for these changes and corrected the browser smoke page to target the current privacy disclosure and controls.
+
+## Validation status
+
+The new Node and browser checks are committed but have **not been executed in this environment**. Run npm run check from a local checkout of this branch, then open tests/browser-smoke.html over the deployed HTTPS site. Camera disconnection, page-hidden behavior, offline article navigation, responsive layouts, keyboard/screen-reader access and reduced-motion behavior still require real-browser and device validation.
+
+The PR does not claim camera accuracy, WCAG 2.2 AA conformance, clinical validation or legal compliance.

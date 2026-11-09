@@ -14,6 +14,17 @@ A static browser application for counting completed head-movement cycles with op
 
 The help centre is at https://myg-1107.github.io/Head-Exercise-Application/blog/ and contains 20 individual articles about the application's actual features, setup, troubleshooting, privacy and safety.
 
+## v2.7 improvements
+
+- Camera sessions stop safely if the camera track ends unexpectedly.
+- Camera and manual sessions pause when the page is hidden; camera resources are released and the user can resume explicitly.
+- Incomplete facial landmark results produce a clear repositioning message.
+- Optional larger-text and high-contrast display preferences are available on the homepage. They are temporary and are not stored.
+- The service worker can cache the application's help articles after an online visit and uses a clearer offline fallback.
+- The 3D-style walkthrough script is loaded once, and browser smoke checks match the current interface.
+
+These additions do not validate camera accuracy or provide clinical guidance. Camera output remains an estimate.
+
 ## Development checks
 
 This is a static HTML, CSS and JavaScript project; no build step is needed. With Node.js installed, run npm run check. Automated checks do not replace physical-device camera, browser, responsive, accessibility or safety review.

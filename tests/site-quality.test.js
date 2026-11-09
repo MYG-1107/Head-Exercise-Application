@@ -6,3 +6,31 @@ test('internal links in static pages resolve',()=>{for(const p of pages){const h
 test('manifest and service worker identify the current app shell',()=>{const m=JSON.parse(read('manifest.webmanifest'));assert.equal(m.name,'Head Exercise Application');assert.equal(m.start_url,'./');const sw=read('sw.js');for(const f of ['index.html','demo-3d.js','blog/index.html','tracker-core.js'])assert.ok(sw.includes(f))});
 test('structured data is parseable',()=>{for(const p of pages){const html=read(p),m=html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/i);assert.ok(m,p+' missing JSON-LD');assert.ok(JSON.parse(m[1]))}});
 test('walkthrough includes recording support and an accessible transcript',()=>{assert.match(read('demo-3d.js'),/MediaRecorder/);assert.match(read('demo-3d.js'),/captureStream/);assert.match(read('index.html'),/aria-live="polite"/);assert.match(read('index.html'),/walkthrough-transcript/)});
+
+test('walkthrough script is loaded exactly once', () => {
+  const html = read('index.html');
+  assert.equal(html.split('src="demo-3d.js"').length - 1, 1);
+});
+test('camera lifecycle handles interrupted streams and hidden pages', () => {
+  const app = read('script.js');
+  assert.ok(app.includes('function watchCameraStream(stream)'));
+  assert.ok(app.includes("addEventListener('ended'"));
+  assert.ok(app.includes('visibilitychange'));
+  assert.ok(app.includes("addEventListener('pagehide'"));
+});
+test('homepage provides accessible display preferences', () => {
+  const html = read('index.html');
+  const css = read('style.css');
+  const app = read('script.js');
+  assert.ok(html.includes('id="large-text-btn"') && html.includes('id="high-contrast-btn"'));
+  assert.ok(css.includes('body.large-text') && css.includes('body.high-contrast'));
+  assert.ok(app.includes("classList.toggle('large-text')"));
+  assert.ok(app.includes("classList.toggle('high-contrast')"));
+});
+test('service worker includes the application help pages for offline reading', () => {
+  const sw = read('sw.js');
+  for (const file of ['blog/camera-mode-explained.html', 'blog/manual-mode-guide.html', 'blog/safety-and-limitations-of-the-application.html']) {
+    assert.ok(sw.includes(file), file + ' not included in offline shell');
+  }
+  assert.ok(sw.includes('503'));
+});
