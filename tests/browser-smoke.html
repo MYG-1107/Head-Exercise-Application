@@ -62,6 +62,8 @@
         record('Privacy disclosure closes', privacy.open === false);
         const displaySettings = doc.getElementById('display-settings');
         record('Display settings are available', !!displaySettings);
+        displaySettings.querySelector('summary').click();
+        record('Display settings can be opened', displaySettings.open === true);
         doc.getElementById('large-text-btn').click();
         record('Larger text preference toggles', doc.body.classList.contains('large-text') && doc.getElementById('large-text-btn').getAttribute('aria-pressed') === 'true');
         doc.getElementById('high-contrast-btn').click();
