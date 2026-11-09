@@ -124,3 +124,22 @@ test('CSV summary is created only after explicit export click and has no upload 
   assert.match(csv, /does not upload the summary/);
   assert.match(app.elements.get('tracking-status').textContent, /downloaded/i);
 });
+
+test('display preferences toggle larger text and high contrast accessibly', () => {
+  const app = bootApp();
+  const body = app.document.body;
+  const larger = app.elements.get('large-text-btn');
+  const contrast = app.elements.get('high-contrast-btn');
+  larger.click();
+  assert.equal(body.classList.contains('large-text'), true);
+  assert.equal(larger.getAttribute('aria-pressed'), 'true');
+  assert.equal(larger.textContent, 'Larger text: on');
+  contrast.click();
+  assert.equal(body.classList.contains('high-contrast'), true);
+  assert.equal(contrast.getAttribute('aria-pressed'), 'true');
+  assert.equal(contrast.textContent, 'High contrast: on');
+  larger.click();
+  contrast.click();
+  assert.equal(body.classList.contains('large-text'), false);
+  assert.equal(body.classList.contains('high-contrast'), false);
+});
