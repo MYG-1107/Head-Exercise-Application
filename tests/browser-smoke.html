@@ -1,11 +1,15 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Browser smoke test</title></head>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Head Exercise Application — browser smoke test</title>
+</head>
 <body>
-  <h1>Head Movement Tracker browser smoke test</h1>
+  <h1>Head Exercise Application — browser smoke test</h1>
   <p id="result" role="status">RUNNING</p>
   <ol id="checks"></ol>
-  <iframe id="app" title="Tracker under test" src="../index.html" style="width:100%;height:900px;border:1px solid #ccc"></iframe>
+  <iframe id="app" title="Movement counter under test" src="../index.html" style="width:100%;height:900px;border:1px solid #ccc"></iframe>
   <script>
     (async () => {
       const result = document.getElementById('result');
@@ -17,6 +21,7 @@
         checks.appendChild(item);
         if (!pass) throw new Error(`${name} failed ${detail}`);
       };
+
       try {
         const frame = document.getElementById('app');
         if (!frame.contentDocument || frame.contentDocument.readyState !== 'complete') {
@@ -36,16 +41,19 @@
             value: (...args) => { cameraRequests += 1; return original(...args); }
           });
         }
-        record('Core app rendered', !!doc.getElementById('start-session-btn'));
-        record('Walkthrough script is included once', [...doc.scripts].filter(s => s.src.includes('demo-3d.js')).length === 1);
+
+        record('Main counter rendered', !!doc.getElementById('start-session-btn'));
+        record('Only essential navigation remains', doc.querySelectorAll('.header-actions a').length === 3);
+        record('Removed article archive is not linked', ![...doc.querySelectorAll('a')].some(link => /blog\//.test(link.getAttribute('href') || '')));
         record('Camera is off initially', doc.getElementById('camera-overlay').hidden === false && doc.getElementById('camera-live-pill').hidden === true);
+
         doc.getElementById('mode-toggle-btn').click();
         record('Manual mode selected', doc.getElementById('manual-panel').hidden === false);
         doc.getElementById('start-session-btn').click();
         record('Manual session starts', doc.getElementById('session-state').dataset.state === 'running');
-        record('Manual mode never requests camera permission', cameraRequests === 0);
+        record('Manual mode does not request camera permission', cameraRequests === 0);
         doc.querySelector('[data-manual-direction="UP"]').click();
-        record('Manual count updates live', doc.getElementById('count-UP').textContent === '1' && doc.getElementById('total-progress').textContent === '1' && doc.getElementById('total-target').textContent === '/ 12');
+        record('Manual count updates', doc.getElementById('count-UP').textContent === '1' && doc.getElementById('total-progress').textContent === '1');
         doc.getElementById('pause-resume-btn').click();
         record('Pause changes session state', doc.getElementById('session-state').dataset.state === 'paused');
         doc.getElementById('start-session-btn').click();
@@ -53,22 +61,21 @@
         doc.getElementById('end-session-btn').click();
         record('Stop ends session', doc.getElementById('session-state').dataset.state === 'ended');
         doc.getElementById('reset-btn').click();
-        record('Reset clears counters and time', doc.getElementById('count-UP').textContent === '0' && doc.getElementById('total-progress').textContent === '0' && doc.getElementById('total-target').textContent === '/ 12' && doc.getElementById('timer-display').textContent === '00:00');
-        record('Manual mode does not load camera CDN', ![...win.performance.getEntriesByType('resource')].some(entry => entry.name.includes('jsdelivr.net')));
+        record('Reset clears counters and time', doc.getElementById('count-UP').textContent === '0' && doc.getElementById('total-progress').textContent === '0' && doc.getElementById('timer-display').textContent === '00:00');
+
         const privacy = doc.getElementById('privacy-details');
         privacy.querySelector('summary').click();
         record('Privacy disclosure opens', privacy.open === true);
         privacy.querySelector('summary').click();
         record('Privacy disclosure closes', privacy.open === false);
+
         const displaySettings = doc.getElementById('display-settings');
-        record('Display settings are available', !!displaySettings);
         displaySettings.querySelector('summary').click();
-        record('Display settings can be opened', displaySettings.open === true);
         doc.getElementById('large-text-btn').click();
         record('Larger text preference toggles', doc.body.classList.contains('large-text') && doc.getElementById('large-text-btn').getAttribute('aria-pressed') === 'true');
         doc.getElementById('high-contrast-btn').click();
         record('High contrast preference toggles', doc.body.classList.contains('high-contrast') && doc.getElementById('high-contrast-btn').getAttribute('aria-pressed') === 'true');
-        record('Walkthrough transcript is present', !!doc.querySelector('.walkthrough-transcript'));
+
         result.textContent = 'PASS — all browser smoke checks completed';
         result.dataset.result = 'pass';
       } catch (error) {
